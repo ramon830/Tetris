@@ -1,6 +1,6 @@
 package logic;
 
-public abstract class Shape {
+public class Shape {
     private int countCellsWidth = 10;
     private int countCellsHeight = 20;
 
@@ -8,45 +8,45 @@ public abstract class Shape {
     protected int x=0;
     protected int y=0;
 
-    public abstract void moveShapeLeft();
-    public abstract void moveShapeRight();
-    public abstract void touchLeft();
-    public abstract void touchRight();
+    public Shape(boolean[][] arrayShape) {
+        this.arrayShape = arrayShape;
+    }
+    public void moveShapeLeft() {
+        if (x>0) {
+            x--;
+        }
+
+    }
+
+    public  void moveShapeRight() {
+        if (x<countCellsWidth) {
+            x++;
+        }
+    }
 
 
     public boolean touchBottom() {
         if (countCellsHeight == y) {
-            return true;
+           return true;
         }
         return false;
     }
 
     public boolean[][] moveDown(boolean[][] field) {
-        y++;
 
         for (int i=arrayShape.length-1; i>=0; i--){
-            field = clearField(field);
+
             for (int j=0; j<arrayShape[0].length; j++) {
-                //System.out.println(y-arrayShape.length+i);
+
                 if (y-arrayShape.length+i >= 0) {
-                    field[y-arrayShape.length+i][x + j]=true;
+                    field[y-arrayShape.length+i][x + j]=arrayShape[i][j];
                 }
             }
         }
+       // y++;
         return field;
     }
 
-    private boolean[][] clearField(boolean[][] field) {
-        for (int i=arrayShape.length-1; i>=0; i--){
-            for (int j=0; j<arrayShape[0].length; j++) {
-
-                if (y-arrayShape.length+i-1 >= 0) {
-                    field[y-arrayShape.length+i-1][x + j]=false;
-                }
-            }
-        }
-        return field;
-    }
 
     public boolean[][] rotate() {
         boolean[][] rotationArray = new boolean[arrayShape[0].length][arrayShape.length];
@@ -76,5 +76,11 @@ public abstract class Shape {
         return arrayShape;
     }
 
+    public int getY() {
+        return y;
+    }
 
+    public void setY(int y) {
+        this.y = y;
+    }
 }

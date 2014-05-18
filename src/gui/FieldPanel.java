@@ -3,6 +3,7 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class FieldPanel extends JPanel {
 
     private int countCellsWidth = 10;
@@ -39,4 +40,6 @@ public class FieldPanel extends JPanel {
 
 
     }
+
+
 }
