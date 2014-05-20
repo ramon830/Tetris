@@ -12,7 +12,7 @@ public class Frame extends JFrame implements Runnable {
     Field field = new Field();
     FieldPanel fieldPanel = new FieldPanel();
 
-    public Frame(String title) throws HeadlessException {
+    public Frame(String title) {
         super(title);
         setLayout(new GridLayout(1,2));
 
@@ -24,45 +24,42 @@ public class Frame extends JFrame implements Runnable {
                 int key = e.getKeyCode();
 
                 if (key == KeyEvent.VK_LEFT) {
-                    field.clearField();
+
                     field.getShape().moveShapeLeft();
-                    drawField();
-                    System.out.println("left");
-
-
 
                 }
 
                 if (key == KeyEvent.VK_RIGHT) {
-                    field.clearField();
+
                     field.getShape().moveShapeRight();
-                    drawField();
-                    System.out.println("right");
+
                 }
 
                 if (key == KeyEvent.VK_UP) {
-                    System.out.println("up");
+
+                    field.getShape().rotate();
+
                 }
 
                 if (key == KeyEvent.VK_DOWN) {
-                    System.out.println("down");
+                    field.acceleration();
+
                 }
             }
 
         });
-        Thread thread = new Thread(this);
-        thread.start();
+
+        Thread threadDraw = new Thread(this);
+        threadDraw.start();
+
     }
 
-
     @Override
-    public void run() {
-        while (true) {
+    public void run(){
+        while(true) {
             drawField();
-            field.timeStep();
-
             try {
-                Thread.sleep(field.getTimeSleep());
+                Thread.sleep(1000/24);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,6 +79,5 @@ public class Frame extends JFrame implements Runnable {
             }
         }
     }
-
 
 }
