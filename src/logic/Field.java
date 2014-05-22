@@ -6,10 +6,10 @@ public class Field implements Runnable {
     private boolean[][] field = new boolean[countCellsHeight][countCellsWidth];
     private long timeSleep=1000;
     private long acceleration=timeSleep;
-    private Shape shape;
+    private Shape shape = new Shape(field);
 
     public Field() {
-        shape = new Shape(field);
+
         Thread threadField = new Thread(this);
         threadField.start();
 

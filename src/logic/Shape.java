@@ -1,17 +1,16 @@
 package logic;
 
 public class Shape {
-    private int countCellsWidth = 10;
-    private int countCellsHeight = 20;
 
-    volatile protected boolean[][] arrayShape;
+    protected boolean[][] arrayShape;
     private boolean[][] field;
-    volatile protected int x=0;
-    volatile protected int y=0;
+    protected int x=0;
+    protected int y=0;
 
     public Shape(boolean[][] field) {
-        generateShape();
         this.field = field;
+        generateShape();
+
     }
 
     public void moveShapeLeft() {
@@ -32,7 +31,7 @@ public class Shape {
     }
 
     public boolean touchBottom() {
-        if (countCellsHeight == y) {
+        if (field.length == y) {
            return true;
         }
         for (int i=0; i<arrayShape[0].length; i++) {
@@ -65,7 +64,7 @@ public class Shape {
     }
 
     private boolean touchRight() {
-        if (x==countCellsWidth-arrayShape[0].length) {
+        if (x==field[0].length-arrayShape[0].length) {
             return true;
         }
             for (int i=0; i<arrayShape.length; i++) {
@@ -73,7 +72,7 @@ public class Shape {
                 while (!arrayShape[i][j]) {
                     j--;
                 }
-                if (y-arrayShape.length+i >= 0 && x+j+1<countCellsWidth-arrayShape[0].length && field[y-arrayShape.length+i][x + j+1]) {
+                if (y-arrayShape.length+i >= 0 && x+j+1<field[0].length-arrayShape[0].length && field[y-arrayShape.length+i][x + j+1]) {
                     return true;
                 }
             }
@@ -136,31 +135,6 @@ public class Shape {
         move();
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public boolean[][] getArrayShape() {
-        return arrayShape;
-    }
-
-    public void setArrayShape(boolean[][] arrayShape) {
-        this.arrayShape = arrayShape;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-
     private void generateShape() {
         double d =  Math.random()*6;
         switch ((int)d) {
@@ -180,6 +154,6 @@ public class Shape {
                 break;
 
         }
-        x=((int)(Math.random()*(countCellsWidth-arrayShape[0].length)));
+        x=((int)(Math.random()*(field[0].length-arrayShape[0].length)));
     }
 }

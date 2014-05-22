@@ -9,14 +9,15 @@ import java.awt.event.KeyEvent;
 
 public class Frame extends JFrame implements Runnable {
 
-    Field field = new Field();
-    FieldPanel fieldPanel = new FieldPanel();
+    private Field field = new Field();
+    private FieldPanel fieldPanel = new FieldPanel(field.getField());
 
     public Frame(String title) {
         super(title);
         setLayout(new GridLayout(1,2));
 
         add(fieldPanel);
+
         fieldPanel.setFocusable(true);
         fieldPanel.addKeyListener(new KeyAdapter() {
 
@@ -26,6 +27,7 @@ public class Frame extends JFrame implements Runnable {
                 if (key == KeyEvent.VK_LEFT) {
 
                     field.getShape().moveShapeLeft();
+
 
                 }
 
@@ -49,6 +51,7 @@ public class Frame extends JFrame implements Runnable {
 
         });
 
+
         Thread threadDraw = new Thread(this);
         threadDraw.start();
 
@@ -57,7 +60,7 @@ public class Frame extends JFrame implements Runnable {
     @Override
     public void run(){
         while(true) {
-            drawField();
+               fieldPanel.drawField();
             try {
                 Thread.sleep(1000/24);
             } catch (Exception e) {
@@ -66,18 +69,7 @@ public class Frame extends JFrame implements Runnable {
         }
     }
 
-    public void drawField() {
-        boolean[][] arrayField = field.getField();
-        Cell[][] arrayCell = fieldPanel.getArrayCell();
-        for (int i=0; i<arrayField.length; i++) {
-            for (int j=0; j<arrayField[0].length; j++) {
-                if (arrayField[i][j] == true) {
-                    arrayCell[i][j].setColor(Color.PINK);
-                } else {
-                    arrayCell[i][j].setColor(Color.BLACK);
-                }
-            }
-        }
+    public Field getField() {
+        return field;
     }
-
 }

@@ -6,40 +6,42 @@ import java.awt.*;
 
 public class FieldPanel extends JPanel {
 
-    private int countCellsWidth = 10;
-    private int countCellsHeight = 20;
-    private Cell[][] arrayCell = new Cell[countCellsHeight][countCellsWidth];
+    private boolean[][] array;
 
-    public FieldPanel() {
-
-       init();
+    public FieldPanel(boolean[][] array) {
+        this.array = array;
 
     }
 
-    public Cell[][] getArrayCell() {
-        return arrayCell;
-    }
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        int widhtPanel = getWidth();
+        int heightPanel = getHeight();
+        int border = 5;
+        int widthCell = (widhtPanel-(array[0].length+1)*border)/array[0].length;
+        int heightCell = (heightPanel-(array.length+1)*border)/array.length;
+        setBackground(Color.LIGHT_GRAY);
+        for (int i=0; i<array.length; i++) {
+            for (int j=0; j<array[0].length; j++) {
+                if (array[i][j]) {
+                    g.setColor(Color.PINK);
+                } else {
+                    g.setColor(Color.BLACK);
+                }
 
-    private void init() {
+                int x=j*(border+widthCell)+border;
+                int y= i*(border+heightCell)+border;
+               g.fillRect(x,y, widthCell, heightCell);
 
-        setLayout(new GridLayout(countCellsHeight, countCellsWidth));
-
-        for (int i=0; i<arrayCell.length; i++) {
-            for (int j=0; j<arrayCell[0].length; j++) {
-                arrayCell[i][j] = new Cell();
-                add(arrayCell[i][j]);
             }
+
         }
 
-        for (int i=0; i<arrayCell.length; i++) {
-            for (int j=0; j<arrayCell[0].length; j++) {
-                arrayCell[i][j].setColor(Color.BLACK);
-            }
-        }
-
-
-
     }
 
+    public void drawField() {
+        repaint();
+    }
 
 }
