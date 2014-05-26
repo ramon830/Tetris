@@ -10,7 +10,6 @@ public class FieldPanel extends JPanel {
 
     public FieldPanel(boolean[][] array) {
         this.array = array;
-
     }
 
     @Override

@@ -1,32 +1,46 @@
 package logic;
 
-public class Field implements Runnable {
+public class Field {
     private int countCellsWidth = 10;
     private int countCellsHeight = 20;
     private boolean[][] field = new boolean[countCellsHeight][countCellsWidth];
     private long timeSleep=1000;
     private long acceleration=timeSleep;
     private Shape shape = new Shape(field);
+    private volatile boolean running = true;
+    private int points = 0;
+    private int level =1;
+    private final int pointsOnLevel =100;
 
-    public Field() {
-
-        Thread threadField = new Thread(this);
-        threadField.start();
-
-    }
-
-    public boolean[][] getField() {
+   public boolean[][] getField() {
         return field;
     }
 
+
     public void timeStep() {
-        if (shape.touchBottom()==true) {
-            searchFullLine();
-            shape = new Shape(field);
-            acceleration = timeSleep;
-            return;
+
+            if (running) {
+
+                if (shape.touchBottom()==true) {
+                    searchFullLine();
+                    shape = new Shape(field);
+                    acceleration = timeSleep;
+                    return;
+                }
+                shape.moveDown();
+
+
+            }
+        level = 1+ points/pointsOnLevel;
+
+
+    }
+
+    public boolean gameOver() {
+        if (shape.getY()==0 && shape.touchBottom()) {
+            return true;
         }
-        shape.moveDown();
+        return false;
     }
 
 
@@ -34,25 +48,12 @@ public class Field implements Runnable {
         return shape;
     }
 
-    @Override
-    public void run() {
-        while (true) {
-
-            timeStep();
-
-            try {
-                Thread.sleep(acceleration);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void acceleration() {
         acceleration = timeSleep/10;
     }
 
     public void searchFullLine() {
+        int countFullLine = 0;
         for (int i=0; i<field.length; i++) {
             int count = 0;
             for (int j=0; j<field[0].length; j++) {
@@ -62,9 +63,14 @@ public class Field implements Runnable {
             }
             if (count==field[0].length) {
                 deleteFullLine(i);
+                countFullLine++;
 
             }
         }
+        if (countFullLine>0) {
+            points += Math.pow(10, countFullLine);
+        }
+
     }
 
     private void deleteFullLine(int row) {
@@ -73,5 +79,31 @@ public class Field implements Runnable {
                 field[i][j]=field[i-1][j];
             }
         }
+    }
+
+    public void pause() throws InterruptedException
+    {
+        running = false;
+    }
+
+    public void resume()
+    {
+        running = true;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public long getAcceleration() {
+        return acceleration;
     }
 }

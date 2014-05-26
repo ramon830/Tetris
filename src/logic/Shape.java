@@ -116,7 +116,14 @@ public class Shape {
 
     }
 
+    public int getY() {
+        return y;
+    }
+
     public void rotate() {
+        if (x+arrayShape.length>field[0].length) {
+            return;
+        }
         clearField();
         boolean[][] rotationArray = new boolean[arrayShape[0].length][arrayShape.length];
         int ii = 0;
