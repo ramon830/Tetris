@@ -7,18 +7,6 @@ public class SupportPanel {
     private JLabel level;
     private JLabel points;
     private JPanel supportPanel;
-    private JPanel futurePanel;
-
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("SupportPanel");
-        frame.setContentPane(new SupportPanel().supportPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-
 
     public JPanel getSupportPanel() {
         return supportPanel;
